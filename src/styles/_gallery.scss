@@ -1,0 +1,77 @@
+.carousel {
+    margin-bottom:50px;
+
+    
+    .carousel-inner {
+        padding-top:0;
+    }
+    .carousel-item {
+        -webkit-transition: -webkit-transform 1s ease;
+        transition: -webkit-transform 1s ease;
+        transition: transform 1s ease;
+        transition: transform 1s ease, -webkit-transform 1s ease;
+        img {
+            height:300px;
+            @include object-fit(cover);
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+
+            @include md {
+                height:400px;
+            }
+        }
+
+
+    }
+
+    .carousel-info {
+        .count {
+            color:$black;
+            font-size:14px;
+            font-weight:$bold;
+            margin-right:10px;
+        }
+
+        .caption {
+            color:$black;
+            font-size:14px;
+            font-weight:$bold;
+            text-transform: uppercase;
+            display:inline;
+            text-transform: uppercase;
+   
+        }
+        .expand-carousel,
+        .expand-carousel-potw {
+            cursor: pointer;
+            color:$black;
+            font-size:14px;
+            font-weight:$bold;
+            text-transform: uppercase;
+
+            i {
+                margin-left:10px;
+            }
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            position: relative;
+            bottom: -9px;
+            left: 0;
+            width:100%;
+            @include md {
+                width: 250px;
+            }
+            
+            height: 5px;
+            background: $gallery;
+           
+        }
+    }
+
+    .caption-info-item {
+        display:inline-block;
+    }
+}

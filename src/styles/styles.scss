@@ -1,0 +1,351 @@
+/* BEM guidelines are followed */
+/* http://getbem.com/naming/ */
+
+// Block - Encapsulates a standalone entity that is meaningful on its own.
+// Element - Parts of a block and have no standalone meaning.
+// Modifier - Flags on blocks or elements. Use them to change appearance, behavior or state.
+
+/*
+
+<form class="form form--theme-xmas form--simple">
+  <input class="form__input" type="text" />
+  <input
+    class="form__submit form__submit--disabled"
+    type="submit" />
+</form>
+
+.form { }
+.form--theme-xmas { }
+.form--simple { }
+.form__input { }
+.form__submit { }
+.form__submit--disabled { }
+
+*/
+@import "variables";
+
+@import "bootstrap/scss/bootstrap";
+@import "mixins";
+
+@import "typography";
+@import "buttons";
+
+@import "_header";
+@import "_footer";
+@import "_widgets";
+@import "_home";
+@import "_box";
+@import "_single";
+@import "_gallery";
+@import "_people";
+@import "_search";
+@import "_page-content";
+@import "_404";
+
+.container {
+  position: relative;
+  max-width: 1240px;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  > .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  &--large {
+    max-width: 1820px;
+    padding: 0;
+    > .row {
+      margin-left: 0;
+      margin-right: 0;
+
+      .col {
+        width: auto;
+      }
+    }
+  }
+
+  &--section-image {
+    max-width: 1440px;
+    padding: 0;
+    > .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &--about {
+    max-width: 1030px;
+    box-shadow: 1px 7px 44px -5px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 1px 7px 44px -5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 7px 44px -5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: $gallery;
+}
+
+hr {
+  border: 0;
+  height: 2px;
+  background: $mercury;
+}
+
+.pr-md-25 {
+  @include md {
+    padding-right: 20px !important;
+  }
+}
+.pl-md-25 {
+  @include md {
+    padding-left: 20px !important;
+  }
+}
+
+.pb-40 {
+  padding-bottom: 40px;
+}
+
+.pt-40 {
+  padding-top: 40px;
+}
+
+.pt-35 {
+  padding-top: 35px;
+}
+
+.mt-100 {
+  margin-top:100px;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.container--white {
+  background-color: white;
+}
+
+.responsive-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: auto;
+
+  iframe,
+  object,
+  embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.lazyload,
+.lazyloading {
+  opacity: 0;
+}
+.lazyloaded {
+  opacity: 1 !important;
+  transition: opacity 300ms;
+}
+
+// override some older posts that have fixed size caption in them
+.wp-caption {
+  width: 100% !important;
+}
+
+.spinner-button {
+  .spinning {
+    display: none;
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+    padding: 0 !important;
+    margin-left: 10px;
+  }
+
+  &:disabled,
+  &[disabled] {
+    .spinning {
+      display: inline-block;
+    }
+  }
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotateY {
+  to {
+    -webkit-transform: rotateY(360deg);
+  }
+}
+@keyframes rotateY {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+//response gutter widths
+
+@media (min-width: map-get($grid-breakpoints, xs)) and (max-width: map-get($grid-breakpoints, sm)) {
+  .row > .col,
+  .row > [class*="col-"] {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  .row {
+    margin-right: -5px;
+    margin-left: -5px;
+  }
+}
+
+.events {
+   
+  .event:first-child {
+    border-top: 5px solid $black;
+  }
+
+  .event:last-child {
+   border-bottom: 5px solid $black;
+  }
+
+  &.events--past .event:first-child {
+       border-top: none;
+  }
+
+  .event {
+    a:hover {
+      text-decoration: none;
+    }
+    a {
+      color: black;
+    }
+    margin-top: 0px;
+    margin-bottom: 20px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    border-top: 5px solid $gallery;
+
+    &--image-holder {
+      position: relative;
+      img {
+        height: 200px;
+        width: 100%;
+        @include object-fit(cover);
+      }
+      .details {
+        padding: 0 20px;
+        font-size: 20px;
+        font-weight: $bold;
+        color: white;
+        position: absolute;
+        top: 60%;
+        line-height: 20px;
+      }
+      margin-bottom:20px;
+      @include md {
+        margin-bottom: unset;
+
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: $bold;
+      letter-spacing: 0em;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.page-content.people {
+  @include md {
+    padding-left:40px;
+    padding-right:40px;
+  }
+}
+
+
+.white-bg-small {
+  background-color:white;
+  @include md {
+    background-color:unset;
+  }
+}
+
+.vignette {
+
+  margin-top:40px;
+  margin-bottom:40px;
+
+  &--image {
+    width:100%;
+  }
+}
+
+.hidden {
+  display:none;
+}
+.collapsing {
+-webkit-transition: height 0.25s ease;
+       -o-transition: height 0.25s ease;
+          transition: height .25s ease;
+}
+
+.grecaptcha-badge{
+  display: none !important;
+
+}
+
+.page-template-contact .grecaptcha-badge{
+  display: block !important;
+  z-index: 99;
+}
+
+.member-item{
+
+  h5{
+      font-weight: bold;
+  }
+
+}

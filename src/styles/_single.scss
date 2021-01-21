@@ -1,0 +1,387 @@
+.container.single {
+  background-color: white;
+
+  &--no-side {
+    @include md {
+      background-color: $gallery;
+    }
+  }
+}
+
+.single-header {
+  position: relative;
+  display: none;
+  @include md {
+    display: block;
+    height: 296px;
+  }
+  h1, h2 {
+    margin-top: 40px;
+    @include md {
+      margin-top: 68px;
+      margin-left: -2px;
+    }
+  }
+
+  &--white {
+    color: white;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    @include object-fit(cover);
+  }
+}
+
+.post-details {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: solid 5px $gallery;
+
+  &--bottom {
+    border-top: solid 5px $gallery;
+    border-bottom: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  @include md {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  &--share-only {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    @include md {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+
+  &--border {
+    border-top: solid 5px $gallery;
+  }
+
+  p {
+    margin: 0;
+    font-size: 13px;
+
+    @include md {
+      font-size: 14px;
+    }
+  }
+
+  p.post-details__name {
+    font-weight: $bold;
+    padding-left: 15px;
+    @include md {
+      padding-left: 30px;
+    }
+  }
+  p.post-details__date {
+    color: $rolling-stone;
+    font-weight: $bold;
+    padding-left: 15px;
+    @include md {
+      padding-left: 30px;
+    }
+  }
+
+  &__avatar {
+    img {
+      border-radius: 70px;
+      margin: 0;
+      -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.16);
+      -moz-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.16);
+      box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.16);
+    }
+  }
+}
+
+.breadcrumbs {
+  height: 100px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  @include md {
+    margin-top: -100px;
+    padding-left: 40px;
+    margin-left: -40px;
+    margin-right: -40px;
+  }
+  @include md {
+    &:after {
+      content: " ";
+      right: 0;
+      position: absolute;
+      left: 0;
+      height: 80px;
+      bottom: -80px;
+      background-color: #fff;
+    }
+  }
+  background-color: white;
+
+  p {
+    font-size: 18px;
+    font-weight: $bold;
+    padding: 0;
+    margin: 0;
+  }
+  a {
+    color: black;
+    margin-right: 20px;
+  }
+
+  span {
+    color: #878786;
+    @include lg{
+      margin-right: 20px;
+    }
+    
+  }
+  &.clear{
+    height: auto;
+    padding: 0;
+    box-shadow: none;
+    @include md{
+      margin: 0 20px !important;
+    }
+    &:after{
+      content: none;
+      display: none;
+    }
+  }
+}
+
+.breadcrumbs-people {
+  height: 100px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  background-color: white;
+  @include md {
+    margin-top: -100px;
+    padding-left: 40px;
+  }
+  @include md {
+    &:after {
+      content: " ";
+      right: 0;
+      position: absolute;
+      left: 0;
+      height: 80px;
+      bottom: -80px;
+      background-color: #fff;
+    }
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: $bold;
+    padding: 0;
+    margin: 0;
+  }
+  a {
+    color: black;
+    margin-right: 20px;
+  }
+
+  span {
+    color: $blaze-orange;
+    margin-right: 20px;
+  }
+}
+
+.share {
+  padding: 0;
+  margin: 0;
+  li {
+    display: inline;
+    padding: 0;
+    margin: 0;
+
+    a {
+      color: black;
+      font-size: 20px;
+      margin-left: 15px;
+
+      @include md {
+        font-size: 22px;
+        margin-left: 30px;
+      }
+    }
+  }
+}
+.side-bar {
+  //position:relative;
+  background-color: $gallery;
+  @include md {
+    &:after {
+      position: absolute;
+      content: "";
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 100%;
+      background-color: $gallery;
+    }
+  }
+}
+
+.pseudo-padding {
+  //position:relative;
+  @include md {
+    &:after {
+      position: absolute;
+      content: " ";
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 100%;
+      background-color: #ffffff;
+    }
+  }
+}
+
+.pseudo-padding-left {
+  //position:relative;
+  @include md {
+    &:after {
+      position: absolute;
+      content: " ";
+      top: 0;
+      left: -20px;
+      width: 20px;
+      height: 100%;
+      background-color: #ffffff;
+    }
+  }
+}
+
+.white-bg {
+  background-color: white;
+}
+
+.offset-100{
+  margin-top: -100px;
+}
+
+.pre-content {
+  background-color: white;
+  z-index: 2;
+  position: relative;
+  
+    &:after {
+      position: absolute;
+      content: " ";
+      top: 0;
+      left: -40px;
+      width: calc(100% + 60px);
+      height: 100%;
+      background-color: #ffffff;
+      z-index:-1;
+    }
+    &.clear-bg{
+      &:after{
+        background-color: unset;
+      }
+    }
+  h1{
+    font-size: 40px;
+    &:after {
+      content: '';
+      width: 100px;
+      height: 5px;
+      background: #f58026;
+      display: block;
+      margin-top: 15px;
+    }
+    @include md {
+      &:after {
+        display: none;
+      }
+    }
+  }
+}
+
+.twitter-area {
+  padding-top: 35px;
+  padding-bottom: 35px;
+  border-bottom: 5px solid black;
+}
+.data-heading {
+  margin-top: 0px;
+  background-color: #ed7b25; 
+  @include md {
+    background-color: rgba(0,0,0,0);
+    margin-top: -100px; 
+    padding: 0 40px;
+  } 
+  .row {
+   padding: 26px 0;
+   background-color: #ed7b25;
+   height: auto; }
+   i {
+     margin-right: 10px;
+   }
+}
+// About section >
+.parent-pageid-7, .page-id-7, .page-template-about {
+  .breadcrumbs {
+    span {
+      color:#ed7b25;
+    }
+  }
+}
+// Understanding data
+.parent-pageid-1916, .page-id-1916, .page-template-data, 
+.page-template-help, .docs-template-default {
+  .breadcrumbs {
+    span {
+      color:#00b0b0;
+    }
+  }
+}
+
+// Diseases
+.parent-pageid-9, .page-id-9, .page-template-human-disease {
+  .breadcrumbs {
+    span {
+      color:#c30000;
+    }
+  }
+}
+
+// News and events
+.parent-pageid-10, .page-id-10, .page-template-news {
+  .breadcrumbs {
+    span {
+      color:#750065;
+    }
+  }
+}
+
+// News and events
+.parent-pageid-893, .page-id-893,
+.parent-pageid-978, .page-id-978, .page-template-blog {
+  .breadcrumbs {
+    span {
+      color:$limeade;
+    }
+  }
+}
+
+.parent-pageid-57, .page-id-57, .page-template-publications {
+  .breadcrumbs {
+    span {
+      color: $dodger-blue;
+    }
+  }
+}

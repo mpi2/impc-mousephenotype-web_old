@@ -1,0 +1,147 @@
+.box {
+  &:hover {
+    text-decoration: none;
+  }
+
+  h2,
+  h3,
+  h4,
+  p {
+    color: black;
+    text-decoration: none;
+    word-break: break-word;
+  }
+
+  h2{
+    font-size: 30px;
+    a {
+      color: black;
+    }  
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: capitalize;
+    a {
+      color: black;
+    }  
+  }
+
+  &__image-holder {
+    position: relative;
+    img {
+      height: 100px;
+      width: 100%;
+      @include object-fit(cover);
+      border-bottom: 5px solid $bondi-blue;
+
+      &.understandingthedata {
+        border-color: $bondi-blue;
+      }
+
+      &.humandiseases {
+        border-color: $guardsman-red;
+      }
+
+      &.aboutimpc {
+        border-color: $blaze-orange;
+      }
+
+      &.newsandevents, &.news {
+        border-color: $pompadour;
+      }
+
+      &.blog {
+        border-color: $limeade;
+      }
+      
+      &.paper{
+        border-color: $dodger-blue;
+      }
+    }
+
+    &--small {
+      img {
+        height: 200px;
+      }
+    }
+
+  }
+
+  &.box-large{
+    ul{
+      padding: 0 0 0 20px;
+      list-style: none;
+      li{
+        position: relative;
+        font-size: 18px;
+        padding: 5px 0 5px 10px;
+        &:before{
+          content: '\f101';
+          color: $blaze-orange;
+          font-family: "Font Awesome 5 Pro";          
+          position: absolute;
+          left: -15px;
+        }
+      }
+    }
+  }
+}
+
+
+.box {
+  &--icon {
+
+    .cat-icon {
+    
+      &.cat-icon--understandingthedata{
+        color: $bondi-blue;
+      }
+
+      &.cat-icon--aboutimpc{
+        color: $blaze-orange;
+      }
+
+    }
+  }
+}
+
+.box {
+  &--counter {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    .counter {
+      text-align: center;
+      display: grid;
+      margin-top: 40px;
+    }
+    h2{
+      font-size: 0;
+      color: $blaze-orange;
+      line-height: 1;
+      text-align: center;
+      margin-top: 35px;
+      span{
+        font-size: 85px;
+        padding: 0 5px;
+      }
+    }
+    p {
+      font-size:16px;
+      color:#000;
+      font-weight: $bold;
+      padding:0 20px;
+      text-align:center;
+      margin-top: -10px;
+    }
+  }
+}
+
+.card{
+  height: 100%;
+}

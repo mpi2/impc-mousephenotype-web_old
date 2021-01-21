@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i,800,800i");
+
+/*
+regular - 400
+bold - 700
+extra bold - 800
+*/
+
+$regular: 400;
+$bold: 700;
+$extra-bold: 800;
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: $regular;
+  font-size: 16px;
+}
+
+b,
+strong {
+  font-weight: $bold;
+}
+
+h1 {
+  font-weight: $extra-bold;
+  @include md {
+    font-size: 50px;
+  }
+  letter-spacing: 0.01em;
+  font-size: 35px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h2 {
+  font-weight: $extra-bold;
+  @include md {
+    font-size: 40px;
+  }
+  letter-spacing: 0.01em;
+  font-size: 30px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h3 {
+  font-weight: $bold;
+  @include md {
+    font-size: 30px;
+  }
+  letter-spacing: 0.01em;
+  font-size: 25px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h4 {
+  font-weight: $bold;
+  font-size: 24px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  small{
+    font-size: 60%;
+  }
+}
+
+small, .small{
+  display: inline-block;
+}
+
+.cat-link {
+  display: inline-block;
+  color: #000;
+  text-decoration: none !important;
+  border-bottom: none;
+  line-height: 13px;
+  position: relative;
+  &:hover {
+    border-bottom: 2px;
+    color: #000;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width 0.3s;
+    bottom: -10px;
+  }
+
+  &--understandingthedata::after {
+    background: $bondi-blue;
+  }
+
+  &--humandiseases::after {
+    background: $guardsman-red;
+  }
+
+  &--aboutimpc::after {
+    background: $blaze-orange;
+  }
+
+  &--newsandevents::after, &--news:after {
+    background: $pompadour;
+  }
+
+  &--blog::after {
+    background: $limeade;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
