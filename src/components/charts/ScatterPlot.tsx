@@ -1,4 +1,4 @@
-import React, { cloneElement, createElement, FunctionComponent } from "react";
+import React, { FunctionComponent, ReactElement } from "react";
 import { scaleOrdinal } from "@visx/scale";
 import {
   AnimatedAxis, // any of these can be non-animated equivalents
@@ -8,23 +8,18 @@ import {
   AnimatedGlyphSeries,
   buildChartTheme
 } from "@visx/xychart";
-import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
+import { LegendOrdinal } from "@visx/legend";
 import "../../styles/styles.scss";
 import { Point } from "@visx/point";
 import {
   GlyphCircle,
-  GlyphDiamond,
-  GlyphSquare,
-  GlyphStar,
   GlyphTriangle,
-  GlyphWye
 } from "@visx/glyph";
-import { render } from "@testing-library/react";
 
 export interface IProps {
   title: string;
 }
-const legendGlyphSize = 15;
+const legendGlyphSize = 20;
 
 interface TimePoint {
   x: string;
@@ -73,10 +68,26 @@ const ordinal = scaleOrdinal({
 const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
   domain: ["Female WT", "Male WT", "Female HOM", "Male HOM"],
   range: [
-    <GlyphCircle key="Female WT" fill={ordinal("Female WT")} />,
-    <GlyphTriangle key="Male WT" fill={ordinal("Male WT")} />,
-    <GlyphCircle key="Female HOM" fill={ordinal("Female HOM")} />,
-    <GlyphTriangle key="Male HOM" fill={ordinal("Male HOM")} />
+    <GlyphCircle
+      key="Female WT"
+      fill={ordinal("Female WT")}
+      stroke={ordinal("Female WT")}
+    />,
+    <GlyphTriangle
+      key="Male WT"
+      fill={ordinal("Male WT")}
+      stroke={ordinal("Male WT")}
+    />,
+    <GlyphCircle
+      key="Female HOM"
+      fill={ordinal("Female HOM")}
+      stroke={ordinal("Female HOM")}
+    />,
+    <GlyphTriangle
+      key="Male HOM"
+      fill={ordinal("Male HOM")}
+      stroke={ordinal("Female HOM")}
+    />
   ]
 });
 
@@ -113,25 +124,25 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
           dataKey="Female WT"
           data={data1}
           {...accessors}
-          renderGlyph={() => shapeScale("Female WT")}
+          renderGlyph={() => shapeScale("Female WT") as ReactElement}
         />
         <AnimatedGlyphSeries
           dataKey="Male WT"
           data={data2}
           {...accessors}
-          renderGlyph={() => shapeScale("Male WT")}
+          renderGlyph={() => shapeScale("Female WT") as ReactElement}
         />
         <AnimatedGlyphSeries
           dataKey="Female HOM"
           data={data3}
           {...accessors}
-          renderGlyph={() => shapeScale("Female HOM")}
+          renderGlyph={() => shapeScale("Female HOM") as ReactElement}
         />
         <AnimatedGlyphSeries
           dataKey="Male HOM"
           data={data4}
           {...accessors}
-          renderGlyph={() => shapeScale("Male HOM")}
+          renderGlyph={() => shapeScale("Male HOM") as ReactElement}
         />
         <Tooltip
           snapTooltipToDatumX
@@ -157,34 +168,56 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
           }}
         />
       </XYChart>
-      <LegendOrdinal
-        scale={shapeScale}
-        direction="row-reverse"
-        itemDirection="row-reverse wrap"
-        labelFlex="0 auto"
-        labelMargin="0 0 0 20px"
-        labelAlign="flex-start"
-        shapeHeight={legendGlyphSize}
-        shapeWidth={legendGlyphSize}
-        style={{flexWrap: "wrap"}}
-        shape={({ label }) => {
-          const shape = shapeScale(label.datum);
-          const isValidElement = React.isValidElement(shape);
-          const color = ordinal(label.datum);
-          return (
-            <svg width={legendGlyphSize} height={legendGlyphSize}>
-              {isValidElement
-                ? React.cloneElement(shape as React.ReactElement)
-                : React.createElement(
-                    shape as React.ComponentType<{ fill: string }>,
-                    {
-                      fill: color
-                    }
-                  )}
-            </svg>
-          );
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "14px"
         }}
-      />
+      >
+        <LegendOrdinal
+          scale={shapeScale}
+          direction="row"
+          labelMargin="0 15px 0 0"
+          shapeHeight={legendGlyphSize}
+          shapeWidth={legendGlyphSize}
+          shape={({ label }) => {
+            const shape = shapeScale(label.datum);
+            const isValidElement = React.isValidElement(shape);
+            const color = ordinal(label.datum);
+            return (
+              <svg width={legendGlyphSize} height={legendGlyphSize}>
+                {isValidElement
+                  ? React.cloneElement(
+                      shape as ReactElement<{
+                        fill: string;
+                        top: number;
+                        left: number;
+                      }>,
+                      {
+                        fill: color,
+                        top: 10,
+                        left: 10
+                      }
+                    )
+                  : React.createElement(
+                      shape as React.ComponentType<{
+                        fill: string;
+                        top: number;
+                        left: number;
+                      }>,
+                      {
+                        fill: color,
+                        top: 50,
+                        left: 50
+                      }
+                    )}
+              </svg>
+            );
+          }}
+        />
+      </div>
     </div>
   );
 };
