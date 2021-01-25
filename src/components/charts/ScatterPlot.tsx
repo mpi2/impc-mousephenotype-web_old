@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement } from "react";
+import React, { FunctionComponent, ReactElement, useContext } from "react";
 import { scaleOrdinal } from "@visx/scale";
 import {
   AnimatedAxis, // any of these can be non-animated equivalents
@@ -9,96 +9,77 @@ import {
   buildChartTheme
 } from "@visx/xychart";
 import { LegendOrdinal } from "@visx/legend";
+import { GlyphCircle, GlyphTriangle } from "@visx/glyph";
+
 import "../../styles/styles.scss";
-import { Point } from "@visx/point";
-import {
-  GlyphCircle,
-  GlyphTriangle,
-} from "@visx/glyph";
+import "./ScatterPlot.css";
+import { ParentSize } from "@visx/responsive";
 
 export interface IProps {
-  title: string;
+  xAxisLabel: string;
+  yAxisLabel: string;
+  /**
+   * List of the experiment data series. Each experiment series object contains a **seriesName**
+   * and a **data** property. The data property should have a list of data points (x, y) (dateOfExperiment, value).
+   */
+  series: IExperimentSeries[];
 }
 const legendGlyphSize = 20;
 
-interface TimePoint {
+interface ITimePoint {
   x: string;
   y: number;
 }
 
-const data1: TimePoint[] = [
-  { x: "2020-01-01", y: 100 },
-  { x: "2020-01-02", y: 10 },
-  { x: "2020-01-03", y: 200 }
-];
-
-const data2: TimePoint[] = [
-  { x: "2020-01-01", y: 30 },
-  { x: "2020-01-02", y: 40 },
-  { x: "2020-01-03", y: 80 }
-];
-
-const data3: TimePoint[] = [
-  { x: "2020-01-01", y: 20 },
-  { x: "2020-01-02", y: 50 },
-  { x: "2020-01-03", y: 60 }
-];
-
-const data4: TimePoint[] = [
-  { x: "2020-03-01", y: 30 },
-  { x: "2020-04-02", y: 100 },
-  { x: "2020-05-03", y: 500 }
-];
+/**
+ * This comment _supports_ [Markdown](https://marked.js.org/)
+ */
+export interface IExperimentSeries {
+  seriesName: string;
+  data: ITimePoint[];
+}
 
 const accessors = {
-  xAccessor: (d: Point) => d.x,
-  yAccessor: (d: Point) => d.y
+  xAccessor: (d: ITimePoint) => (d ? new Date(d.x) : new Date()),
+  yAccessor: (d: ITimePoint) => d.y
 };
 
-const ordinal = scaleOrdinal({
-  domain: ["Female WT", "Male WT", "Female HOM", "Male HOM"],
-  range: [
-    "rgba(239, 123, 11, 0.5)",
-    "rgba(239, 123, 11, 0.5)",
-    "rgba(9, 120, 161, 0.5)",
-    "rgba(9, 120, 161, 0.5)"
-  ]
-});
-
-const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-  domain: ["Female WT", "Male WT", "Female HOM", "Male HOM"],
-  range: [
-    <GlyphCircle
-      key="Female WT"
-      fill={ordinal("Female WT")}
-      stroke={ordinal("Female WT")}
-    />,
-    <GlyphTriangle
-      key="Male WT"
-      fill={ordinal("Male WT")}
-      stroke={ordinal("Male WT")}
-    />,
-    <GlyphCircle
-      key="Female HOM"
-      fill={ordinal("Female HOM")}
-      stroke={ordinal("Female HOM")}
-    />,
-    <GlyphTriangle
-      key="Male HOM"
-      fill={ordinal("Male HOM")}
-      stroke={ordinal("Female HOM")}
-    />
-  ]
-});
-
 export const ScatterPlot: FunctionComponent<IProps> = props => {
-  const { title } = props;
+  const { xAxisLabel, yAxisLabel, series } = props;
+
+  const colorScale = scaleOrdinal({
+    domain: series.map(({ seriesName }) => seriesName),
+    range: series.map(({ seriesName }) =>
+      seriesName.includes("WT")
+        ? "rgba(239, 123, 11, 0.5)"
+        : "rgba(9, 120, 161, 0.5)"
+    )
+  });
+
+  const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
+    domain: series.map(({ seriesName }) => seriesName),
+    range: series.map(({ seriesName }) =>
+      seriesName.includes("Female") ? (
+        <GlyphCircle
+          key={seriesName}
+          fill={colorScale(seriesName)}
+          stroke={colorScale(seriesName)}
+        />
+      ) : (
+        <GlyphTriangle
+          key={seriesName}
+          fill={colorScale(seriesName)}
+          stroke={colorScale(seriesName)}
+        />
+      )
+    )
+  });
 
   const customTheme = buildChartTheme({
     // colors
     backgroundColor: "white", // used by Tooltip, Annotation
-    colors: ordinal.range(),
-    tickLength: 0.5,
+    colors: colorScale.range(),
+    tickLength: 5,
 
     // grid
     gridColor: "gray",
@@ -108,66 +89,105 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
     } as React.CSSProperties
   });
 
+  const legendGlyph = (color: string) => {
+    return {
+      fill: color,
+      top: legendGlyphSize / 2,
+      left: legendGlyphSize / 2
+    };
+  };
+
+  const minDate = new Date(
+    Math.min(...series.flatMap(s => s.data.map(d => +accessors.xAccessor(d))))
+  );
+  minDate.setMonth(minDate.getMonth() - 1);
+  const maxDate = new Date(
+    Math.max(...series.flatMap(s => s.data.map(d => +accessors.xAccessor(d))))
+  );
+
   return (
     <div className="page-content people py-5 white-bg">
-      <XYChart
-        height={300}
-        xScale={{ type: "band" }}
-        yScale={{ type: "linear" }}
-        theme={customTheme}
-      >
-        <h1>{title}</h1>
-        <AnimatedAxis orientation="bottom" />
-        <AnimatedAxis orientation="left" />
-        <AnimatedGrid columns={false} numTicks={4} />
-        <AnimatedGlyphSeries
-          dataKey="Female WT"
-          data={data1}
-          {...accessors}
-          renderGlyph={() => shapeScale("Female WT") as ReactElement}
-        />
-        <AnimatedGlyphSeries
-          dataKey="Male WT"
-          data={data2}
-          {...accessors}
-          renderGlyph={() => shapeScale("Female WT") as ReactElement}
-        />
-        <AnimatedGlyphSeries
-          dataKey="Female HOM"
-          data={data3}
-          {...accessors}
-          renderGlyph={() => shapeScale("Female HOM") as ReactElement}
-        />
-        <AnimatedGlyphSeries
-          dataKey="Male HOM"
-          data={data4}
-          {...accessors}
-          renderGlyph={() => shapeScale("Male HOM") as ReactElement}
-        />
-        <Tooltip
-          snapTooltipToDatumX
-          snapTooltipToDatumY
-          showVerticalCrosshair
-          showSeriesGlyphs
-          renderTooltip={({ tooltipData, colorScale }) => {
-            if (tooltipData && tooltipData.nearestDatum && colorScale) {
-              return (
-                <div>
-                  <div
-                    style={{ color: colorScale(tooltipData.nearestDatum.key) }}
-                  >
-                    {tooltipData.nearestDatum.key}
-                  </div>
-                  {accessors.xAccessor(tooltipData.nearestDatum.datum as Point)}
-                  {", "}
-                  {accessors.yAccessor(tooltipData.nearestDatum.datum as Point)}
-                </div>
-              );
-            }
-            return;
-          }}
-        />
-      </XYChart>
+      <ParentSize>
+        {parent => {
+          return (
+            <XYChart
+              height={300}
+              width={parent.width - 20}
+              xScale={{
+                type: "time",
+                clamp: false,
+                nice: true,
+                domain: [minDate, maxDate]
+              }}
+              yScale={{ type: "linear" }}
+              theme={customTheme}
+            >
+              <AnimatedAxis
+                orientation="bottom"
+                label={xAxisLabel}
+                hideZero
+                rangePadding={10}
+              />
+              <AnimatedAxis
+                orientation="left"
+                label={yAxisLabel}
+                hideZero
+                rangePadding={200}
+              />
+              <AnimatedGrid columns={false} numTicks={4} />
+              {series.map(series => (
+                <AnimatedGlyphSeries
+                  dataKey={series.seriesName}
+                  data={series.data}
+                  {...accessors}
+                  renderGlyph={() =>
+                    shapeScale(series.seriesName) as ReactElement
+                  }
+                />
+              ))}
+
+              <Tooltip
+                snapTooltipToDatumX
+                snapTooltipToDatumY
+                showDatumGlyph
+                showVerticalCrosshair
+                renderTooltip={({ tooltipData, colorScale }) => {
+                  //   console.log(tooltipData);
+
+                  if (
+                    tooltipData &&
+                    tooltipData.nearestDatum &&
+                    tooltipData.nearestDatum.datum &&
+                    colorScale
+                  ) {
+                    return (
+                      <div>
+                        <div
+                          style={{
+                            color: colorScale(tooltipData.nearestDatum.key)
+                          }}
+                        >
+                          {tooltipData.nearestDatum.key}
+                        </div>
+                        {accessors
+                          .xAccessor(
+                            tooltipData.nearestDatum.datum as ITimePoint
+                          )
+                          .toDateString()}
+                        {", "}
+                        {accessors.yAccessor(
+                          tooltipData.nearestDatum.datum as ITimePoint
+                        )}
+                      </div>
+                    );
+                  }
+                  return;
+                }}
+              />
+            </XYChart>
+          );
+        }}
+      </ParentSize>
       <div
         style={{
           width: "100%",
@@ -185,7 +205,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
           shape={({ label }) => {
             const shape = shapeScale(label.datum);
             const isValidElement = React.isValidElement(shape);
-            const color = ordinal(label.datum);
+            const color = colorScale(label.datum);
             return (
               <svg width={legendGlyphSize} height={legendGlyphSize}>
                 {isValidElement
@@ -195,11 +215,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                         top: number;
                         left: number;
                       }>,
-                      {
-                        fill: color,
-                        top: 10,
-                        left: 10
-                      }
+                      legendGlyph(color)
                     )
                   : React.createElement(
                       shape as React.ComponentType<{
@@ -207,11 +223,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                         top: number;
                         left: number;
                       }>,
-                      {
-                        fill: color,
-                        top: 50,
-                        left: 50
-                      }
+                      legendGlyph(color)
                     )}
               </svg>
             );
