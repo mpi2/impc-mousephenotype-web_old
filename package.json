@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "@visx/brush": "^1.4.0",
     "@visx/glyph": "^1.0.0",
     "@visx/legend": "^1.4.0",
     "@visx/point": "^1.0.0",
@@ -33,7 +34,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "eslintConfig": {
     "extends": [
@@ -60,10 +62,11 @@
     "@storybook/node-logger": "^6.1.14",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.14",
+    "@storybook/storybook-deployer": "^2.8.7",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
-    "eslint-config-react-app": "^4.0.0",
     "eslint-config-prettier": "^4.0.0",
+    "eslint-config-react-app": "^4.0.0",
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-react": "^7.12.4",

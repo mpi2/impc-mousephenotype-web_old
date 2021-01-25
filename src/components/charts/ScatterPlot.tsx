@@ -111,7 +111,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                 nice: true,
                 domain: [minDate, maxDate]
               }}
-              yScale={{ type: "linear" }}
+              yScale={{ type: "linear", nice: true }}
               theme={customTheme}
             >
               <AnimatedAxis
