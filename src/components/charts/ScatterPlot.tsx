@@ -89,14 +89,6 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
     } as React.CSSProperties
   });
 
-  const legendGlyph = (color: string) => {
-    return {
-      fill: color,
-      top: legendGlyphSize / 2,
-      left: legendGlyphSize / 2
-    };
-  };
-
   const minDate = new Date(
     Math.min(...series.flatMap(s => s.data.map(d => +accessors.xAccessor(d))))
   );
@@ -115,7 +107,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
               width={parent.width - 20}
               xScale={{
                 type: "time",
-                clamp: false,
+                clamp: true,
                 nice: true,
                 domain: [minDate, maxDate]
               }}
@@ -134,7 +126,11 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                 hideZero
                 rangePadding={200}
               />
-              <AnimatedGrid columns={false} numTicks={4} />
+              <AnimatedGrid
+                columns={false}
+                numTicks={4}
+                lineStyle={{ strokeWidth: "1px", stroke: "lightgray" }}
+              />
               {series.map(series => (
                 <AnimatedGlyphSeries
                   dataKey={series.seriesName}
@@ -206,6 +202,11 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
             const shape = shapeScale(label.datum);
             const isValidElement = React.isValidElement(shape);
             const color = colorScale(label.datum);
+            const legendGlyphConfig = {
+              fill: color,
+              top: legendGlyphSize / 2,
+              left: legendGlyphSize / 2
+            };
             return (
               <svg width={legendGlyphSize} height={legendGlyphSize}>
                 {isValidElement
@@ -215,7 +216,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                         top: number;
                         left: number;
                       }>,
-                      legendGlyph(color)
+                      legendGlyphConfig
                     )
                   : React.createElement(
                       shape as React.ComponentType<{
@@ -223,7 +224,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                         top: number;
                         left: number;
                       }>,
-                      legendGlyph(color)
+                      legendGlyphConfig
                     )}
               </svg>
             );
