@@ -6,7 +6,8 @@ import {
   XYChart,
   Tooltip,
   AnimatedGlyphSeries,
-  buildChartTheme
+  buildChartTheme,
+  AnimatedLineSeries
 } from "@visx/xychart";
 import { LegendOrdinal } from "@visx/legend";
 import { GlyphCircle, GlyphTriangle } from "@visx/glyph";
@@ -23,6 +24,7 @@ export interface IProps {
    * and a **data** property. The data property should have a list of data points (x, y) (dateOfExperiment, value).
    */
   series: IExperimentSeries[];
+  window?: ITimePoint[];
 }
 const legendGlyphSize = 20;
 
@@ -45,7 +47,7 @@ const accessors = {
 };
 
 export const ScatterPlot: FunctionComponent<IProps> = props => {
-  const { xAxisLabel, yAxisLabel, series } = props;
+  const { xAxisLabel, yAxisLabel, series, window } = props;
 
   const colorScale = scaleOrdinal({
     domain: series.map(({ seriesName }) => seriesName),
@@ -142,13 +144,23 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                 />
               ))}
 
+              {window ? (
+                <AnimatedLineSeries
+                  dataKey="Window"
+                  data={window}
+                  {...accessors}
+                />
+              ) : null}
+
               <Tooltip
                 snapTooltipToDatumX
                 snapTooltipToDatumY
                 showDatumGlyph
                 showVerticalCrosshair
                 renderTooltip={({ tooltipData, colorScale }) => {
-                  //   console.log(tooltipData);
+                    if(tooltipData?.nearestDatum?.key === "Window") {
+                        return;
+                    }
 
                   if (
                     tooltipData &&

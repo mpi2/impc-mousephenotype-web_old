@@ -43,6 +43,13 @@ const series = [
   }
 ];
 
+const window = [
+  { x: "2015-01-01", y: 0 },
+  { x: "2017-01-02", y: 200 },
+  { x: "2020-01-03", y: 300 },
+  { x: "2021-01-03", y: 0 }
+];
+
 const Template: Story<IProps> = args => <ScatterPlot {...args} />;
 
 export const Unidimensional = Template.bind({});
@@ -56,5 +63,6 @@ export const UnidimensionalWindow = Template.bind({});
 UnidimensionalWindow.args = {
   xAxisLabel: "Date of experiment",
   yAxisLabel: "Total cholesterol (mg/dl)",
-  series: series
+  series: series,
+  window: window
 };
