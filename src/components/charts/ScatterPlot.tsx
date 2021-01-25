@@ -10,7 +10,7 @@ import {
   AnimatedLineSeries
 } from "@visx/xychart";
 import { LegendOrdinal } from "@visx/legend";
-import { GlyphCircle, GlyphTriangle } from "@visx/glyph";
+import { GlyphCircle, GlyphSquare, GlyphTriangle } from "@visx/glyph";
 
 import "../../styles/styles.scss";
 import "./ScatterPlot.css";
@@ -49,32 +49,51 @@ const accessors = {
 export const ScatterPlot: FunctionComponent<IProps> = props => {
   const { xAxisLabel, yAxisLabel, series, window } = props;
 
+  const seriesNames = series.map(({ seriesName }) => seriesName);
+  if (window) {
+    seriesNames.push("Window");
+  }
+
   const colorScale = scaleOrdinal({
-    domain: series.map(({ seriesName }) => seriesName),
-    range: series.map(({ seriesName }) =>
-      seriesName.includes("WT")
-        ? "rgba(239, 123, 11, 0.5)"
-        : "rgba(9, 120, 161, 0.5)"
-    )
+    domain: seriesNames,
+    range: seriesNames.map(seriesName => {
+      if (seriesName === "Window") {
+        return "rgba(124, 124, 124, 0.5)";
+      } else if (seriesName.includes("WT")) {
+        return "rgba(9, 120, 161, 0.5)";
+      }
+      return "rgba(239, 123, 11, 0.5)";
+    })
   });
 
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: series.map(({ seriesName }) => seriesName),
-    range: series.map(({ seriesName }) =>
-      seriesName.includes("Female") ? (
-        <GlyphCircle
+    domain: seriesNames,
+    range: seriesNames.map(seriesName => {
+      if (seriesName === "Window") {
+        return <GlyphSquare
           key={seriesName}
           fill={colorScale(seriesName)}
           stroke={colorScale(seriesName)}
-        />
-      ) : (
-        <GlyphTriangle
-          key={seriesName}
-          fill={colorScale(seriesName)}
-          stroke={colorScale(seriesName)}
-        />
-      )
-    )
+        />;
+      }
+      if (seriesName.includes("Female")) {
+        return (
+          <GlyphCircle
+            key={seriesName}
+            fill={colorScale(seriesName)}
+            stroke={colorScale(seriesName)}
+          />
+        );
+      } else {
+        return (
+          <GlyphTriangle
+            key={seriesName}
+            fill={colorScale(seriesName)}
+            stroke={colorScale(seriesName)}
+          />
+        );
+      }
+    })
   });
 
   const customTheme = buildChartTheme({
@@ -158,9 +177,9 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                 showDatumGlyph
                 showVerticalCrosshair
                 renderTooltip={({ tooltipData, colorScale }) => {
-                    if(tooltipData?.nearestDatum?.key === "Window") {
-                        return;
-                    }
+                  if (tooltipData?.nearestDatum?.key === "Window") {
+                    return;
+                  }
 
                   if (
                     tooltipData &&
