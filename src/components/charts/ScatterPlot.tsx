@@ -121,7 +121,7 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
   );
 
   return (
-    <div className="page-content people py-5 white-bg">
+    <div>
       <ParentSize>
         {parent => {
           return (

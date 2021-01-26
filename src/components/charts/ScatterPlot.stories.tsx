@@ -50,7 +50,11 @@ const window = [
   { x: "2021-01-03", y: 0 }
 ];
 
-const Template: Story<IProps> = args => <ScatterPlot {...args} />;
+const Template: Story<IProps> = args => (
+  <div className="page-content people py-5 white-bg">
+    <ScatterPlot {...args} />
+  </div>
+);
 
 export const Unidimensional = Template.bind({});
 Unidimensional.args = {
