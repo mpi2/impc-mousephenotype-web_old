@@ -36,7 +36,7 @@ interface ITimePoint {
 /**
  * This comment _supports_ [Markdown](https://marked.js.org/)
  */
-export interface IExperimentSeries {
+interface IExperimentSeries {
   seriesName: string;
   data: ITimePoint[];
 }
@@ -70,11 +70,13 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
     domain: seriesNames,
     range: seriesNames.map(seriesName => {
       if (seriesName === "Window") {
-        return <GlyphSquare
-          key={seriesName}
-          fill={colorScale(seriesName)}
-          stroke={colorScale(seriesName)}
-        />;
+        return (
+          <GlyphSquare
+            key={seriesName}
+            fill={colorScale(seriesName)}
+            stroke={colorScale(seriesName)}
+          />
+        );
       }
       if (seriesName.includes("Female")) {
         return (
@@ -139,14 +141,8 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                 orientation="bottom"
                 label={xAxisLabel}
                 hideZero
-                rangePadding={10}
               />
-              <AnimatedAxis
-                orientation="left"
-                label={yAxisLabel}
-                hideZero
-                rangePadding={200}
-              />
+              <AnimatedAxis orientation="left" label={yAxisLabel} hideZero />
               <AnimatedGrid
                 columns={false}
                 numTicks={4}
