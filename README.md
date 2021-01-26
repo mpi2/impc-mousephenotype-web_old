@@ -4,6 +4,10 @@ Data portal for [mousephenotype.org](https://www.mousephenotype.org/data).
 
 The International Mouse Phenotyping Consortium (IMPC) is an international effort by 19 research institutions to identify the function of every protein-coding gene in the mouse genome.
 
+## Component library
+
+See an static version of our components and pages using [StoryBook JS](https://github.com/mpi2/impc-mousephenotype-web/tree/gh-pages) [here](https://mpi2.github.io/impc-mousephenotype-web/?path=/story/impc-introduction--page).
+
 ## Available Scripts
 
 In the project directory, you can run:
