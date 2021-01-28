@@ -1,0 +1,81 @@
+.header .navbar-toggler {
+  height: 79px;
+  color: #000000;
+  font-size: 18px;
+  border: none;
+  background: transparent !important;
+  padding: 0;
+  border-radius: 0;
+}
+.header .navbar-toggler.more-button {
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: black;
+  background-color: #9f147b !important;
+  height: 79px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 5px;
+}
+@media (min-width: 1124px) {
+  .header .navbar-toggler.more-button {
+    margin-left: 25px;
+  }
+}
+.header .navbar-toggler.more-button i {
+  margin-left: 8px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.header .navbar-toggler.more-button.collapsed {
+  color: #6e757a;
+  background-color: white !important;
+  height: 73px;
+}
+.header .navbar-toggler.more-button.collapsed i {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.header .navbar-toggler .icon-bar {
+  width: 22px;
+  height: 2px;
+  background-color: #ed7b25;
+  display: block;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+.header .navbar-toggler .top-bar {
+  -webkit-transform: translate(3px) rotate(45deg);
+  transform: translate(3px) rotate(45deg);
+  -webkit-transform-origin: 10% 10%;
+  transform-origin: 10% 10%;
+}
+.header .navbar-toggler .middle-bar {
+  opacity: 0;
+}
+.header .navbar-toggler .bottom-bar {
+  -webkit-transform: translate(3px) rotate(-45deg);
+  transform: translate(3px) rotate(-45deg);
+  -webkit-transform-origin: 10% 90%;
+  transform-origin: 10% 90%;
+}
+.header .navbar-toggler.collapsed .top-bar {
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  background-color: black;
+}
+.header .navbar-toggler.collapsed .middle-bar {
+  opacity: 1;
+  background-color: black;
+}
+.header .navbar-toggler.collapsed .bottom-bar {
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  background-color: black;
+}
