@@ -63,8 +63,8 @@ Unidimensional.args = {
   series: series
 };
 
-export const UnidimensionalWindow = Template.bind({});
-UnidimensionalWindow.args = {
+export const UnidimensionalWithWindow = Template.bind({});
+UnidimensionalWithWindow.args = {
   xAxisLabel: "Date of experiment",
   yAxisLabel: "Total cholesterol (mg/dl)",
   series: series,
