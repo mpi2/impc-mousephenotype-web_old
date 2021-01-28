@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useContext } from "react";
+import React, { FunctionComponent, ReactElement, useState } from "react";
 import { scaleOrdinal } from "@visx/scale";
 import {
   AnimatedAxis, // any of these can be non-animated equivalents
@@ -9,7 +9,7 @@ import {
   buildChartTheme,
   AnimatedLineSeries
 } from "@visx/xychart";
-import { LegendOrdinal } from "@visx/legend";
+import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { GlyphCircle, GlyphSquare, GlyphTriangle } from "@visx/glyph";
 
 import "../../styles/styles.scss";
@@ -48,11 +48,12 @@ const accessors = {
 
 export const ScatterPlot: FunctionComponent<IProps> = props => {
   const { xAxisLabel, yAxisLabel, series, window } = props;
-
   const seriesNames = series.map(({ seriesName }) => seriesName);
   if (window) {
     seriesNames.push("Window");
   }
+
+  const [activeSeries, setActiveSeries] = useState<string[]>(seriesNames);
 
   const colorScale = scaleOrdinal({
     domain: seriesNames,
@@ -112,13 +113,13 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
     } as React.CSSProperties
   });
 
-  const minDate = new Date(
-    Math.min(...series.flatMap(s => s.data.map(d => +accessors.xAccessor(d))))
-  );
-  minDate.setMonth(minDate.getMonth() - 1);
-  const maxDate = new Date(
-    Math.max(...series.flatMap(s => s.data.map(d => +accessors.xAccessor(d))))
-  );
+  // const minDate = new Date(
+  //   Math.min(...series.flatMap(s => s.data.map(d => +accessors.xAccessor(d))))
+  // );
+  // minDate.setMonth(minDate.getMonth() - 1);
+  // const maxDate = new Date(
+  //   Math.max(...series.flatMap(s => s.data.map(d => +accessors.xAccessor(d))))
+  // );
 
   return (
     <div>
@@ -132,16 +133,12 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
                 type: "time",
                 clamp: true,
                 nice: true,
-                domain: [minDate, maxDate]
+                // domain: [minDate, maxDate]
               }}
               yScale={{ type: "linear", nice: true }}
               theme={customTheme}
             >
-              <AnimatedAxis
-                orientation="bottom"
-                label={xAxisLabel}
-                hideZero
-              />
+              <AnimatedAxis orientation="bottom" label={xAxisLabel} hideZero />
               <AnimatedAxis orientation="left" label={yAxisLabel} hideZero />
               <AnimatedGrid
                 columns={false}
@@ -150,8 +147,11 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
               />
               {series.map(series => (
                 <AnimatedGlyphSeries
+                  key={series.seriesName}
                   dataKey={series.seriesName}
-                  data={series.data}
+                  data={
+                    activeSeries.includes(series.seriesName) ? series.data : []
+                  }
                   {...accessors}
                   renderGlyph={() =>
                     shapeScale(series.seriesName) as ReactElement
@@ -162,7 +162,8 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
               {window ? (
                 <AnimatedLineSeries
                   dataKey="Window"
-                  data={window}
+                  data={activeSeries.includes("Window") ? window : []}
+                  stroke={colorScale("Window")}
                   {...accessors}
                 />
               ) : null}
@@ -222,41 +223,72 @@ export const ScatterPlot: FunctionComponent<IProps> = props => {
         <LegendOrdinal
           scale={shapeScale}
           direction="row"
-          labelMargin="0 15px 0 0"
           shapeHeight={legendGlyphSize}
           shapeWidth={legendGlyphSize}
-          shape={({ label }) => {
-            const shape = shapeScale(label.datum);
-            const isValidElement = React.isValidElement(shape);
-            const color = colorScale(label.datum);
-            const legendGlyphConfig = {
-              fill: color,
-              top: legendGlyphSize / 2,
-              left: legendGlyphSize / 2
-            };
-            return (
-              <svg width={legendGlyphSize} height={legendGlyphSize}>
-                {isValidElement
-                  ? React.cloneElement(
-                      shape as ReactElement<{
-                        fill: string;
-                        top: number;
-                        left: number;
-                      }>,
-                      legendGlyphConfig
-                    )
-                  : React.createElement(
-                      shape as React.ComponentType<{
-                        fill: string;
-                        top: number;
-                        left: number;
-                      }>,
-                      legendGlyphConfig
-                    )}
-              </svg>
-            );
-          }}
-        />
+          labelMargin="10px"
+          labelAlign="center"
+        >
+          {labels =>
+            labels.map(label => {
+              const shape = shapeScale(label.datum);
+              const isValidElement = React.isValidElement(shape);
+              const color = colorScale(label.datum);
+              const legendGlyphConfig = {
+                fill: activeSeries.includes(label.text) ? color : "#ffffff",
+                top: legendGlyphSize / 2,
+                left: legendGlyphSize / 2
+              };
+              return (
+                <LegendItem
+                  key={label.text}
+                  onClick={() => {
+                    if (activeSeries.includes(label.text)) {
+                      setActiveSeries(
+                        activeSeries.filter(s => s !== label.text)
+                      );
+                    } else {
+                      setActiveSeries(activeSeries.concat([label.text]));
+                    }
+                  }}
+                >
+                  <svg
+                    width={legendGlyphSize}
+                    height={legendGlyphSize}
+                    cursor="pointer"
+                  >
+                    {isValidElement
+                      ? React.cloneElement(
+                          shape as ReactElement<{
+                            fill: string;
+                            top: number;
+                            left: number;
+                          }>,
+                          legendGlyphConfig
+                        )
+                      : React.createElement(
+                          shape as React.ComponentType<{
+                            fill: string;
+                            top: number;
+                            left: number;
+                          }>,
+                          legendGlyphConfig
+                        )}
+                  </svg>
+                  <LegendLabel
+                    className={
+                      activeSeries.includes(label.text)
+                        ? "text-dark"
+                        : "text-muted"
+                    }
+                   style={{cursor: "pointer"}}
+                  >
+                    {label.text}
+                  </LegendLabel>
+                </LegendItem>
+              );
+            })
+          }
+        </LegendOrdinal>
       </div>
     </div>
   );
