@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import './styles/styles.scss';
-import { Header } from './components/common/Header';
+import { DataPageTemplate } from './components/templates/DataPageTemplate';
 
 function App() {
-  return <Header />;
+  return <DataPageTemplate />;
 }
 
 export default App;
