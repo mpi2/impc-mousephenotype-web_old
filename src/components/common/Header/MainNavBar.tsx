@@ -6,6 +6,7 @@ export interface MenuItem {
   link: string;
   id: string;
   classes: string;
+  sort?: number;
   children?: MenuItem[];
 }
 
@@ -42,7 +43,15 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                         <li
                           key={`menu-item-${menuItem.id}`}
                           id={`menu-item-${menuItem.id}`}
-                          className={`${menuItem.classes} menu-item menu-item-type-post_type menu-item-object-page menu-item-${menuItem.id}`}
+                          className={`${
+                            menuItem.classes
+                          } menu-item menu-item-type-post_type menu-item-object-page menu-item-${
+                            menuItem.id
+                          } ${
+                            menuItem.classes === "data"
+                              ? "current-menu-item"
+                              : ""
+                          }`}
                           onMouseOver={() => setActiveMenu(menuItem.id)}
                           onFocus={() => setActiveMenu(menuItem.id)}
                         >
@@ -78,7 +87,7 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
             <div
               key={`subMenu-${menuItem.id}`}
               className={`${itemId} sub-menu ${
-                activeMenuId == menuItem.id ? "active" : "collapse"
+                activeMenuId == menuItem.id ? "d-none d-lg-block" : "collapse"
               }`}
               id={itemId}
               style={{
@@ -90,19 +99,34 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
             >
               <div className={`${itemId}__inside`}>
                 <div className="container">
+                  {menuItem.classes == "about-impc" ? (
+                    <a key={menuItem.link} href={menuItem.link}>
+                      {menuItem.name}
+                    </a>
+                  ) : null}
                   {menuItem.children?.some(
                     item => item.children && item.children?.length > 0
                   ) ? (
                     <div className="row justify-content-end">
-                      {
-                        menuItem.children?.map(subMenutItem => {
-                          return (
-                            <div key={subMenutItem.link} className="col col-auto text-left">
-                              <a href={subMenutItem.link}>
-                                {subMenutItem.name}
-                              </a>
-                              <div className="sub-pages">
-                                {subMenutItem.children?.map(subMenutItemChild => {
+                      {menuItem.children?.map(subMenutItem => {
+                        return (
+                          <div
+                            key={subMenutItem.link}
+                            className="col col-auto text-left"
+                          >
+                            <a href={subMenutItem.link}>{subMenutItem.name}</a>
+                            <div className="sub-pages">
+                              {subMenutItem.children
+                                ?.sort((a, b) => {
+                                  if (a.name < b.name) {
+                                    return -1;
+                                  }
+                                  if (a.name > b.name) {
+                                    return 1;
+                                  }
+                                  return 0;
+                                })
+                                .map(subMenutItemChild => {
                                   return (
                                     <p key={subMenutItemChild.link}>
                                       <a href={subMenutItemChild.link}>
@@ -111,20 +135,20 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                                     </p>
                                   );
                                 })}
-                              </div>
                             </div>
-                          );
-                        })
-                      }
+                          </div>
+                        );
+                      })}
                     </div>
                   ) : (
-                    menuItem.children?.map(subMenuItem => {
-                      return (
-                        <a key={subMenuItem.link} href={subMenuItem.link}>
-                          {subMenuItem.name}
-                        </a>
-                      );
-                    })
+                    menuItem.children
+                      ?.map(subMenuItem => {
+                        return (
+                          <a key={subMenuItem.link} href={subMenuItem.link}>
+                            {subMenuItem.name}
+                          </a>
+                        );
+                      })
                   )}
                 </div>
               </div>
