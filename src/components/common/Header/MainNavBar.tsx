@@ -54,6 +54,7 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                           }`}
                           onMouseOver={() => setActiveMenu(menuItem.id)}
                           onFocus={() => setActiveMenu(menuItem.id)}
+                          onMouseLeave={() => setActiveMenu("")}
                         >
                           <a href={menuItem.link}>{menuItem.name}</a>
                         </li>
@@ -86,8 +87,8 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
           return (
             <div
               key={`subMenu-${menuItem.id}`}
-              className={`${itemId} sub-menu ${
-                activeMenuId == menuItem.id ? "d-none d-lg-block" : "collapse"
+              className={`${itemId} sub-menu d-none d-lg-block ${
+                activeMenuId == menuItem.id ? "active" : "collapse"
               }`}
               id={itemId}
               style={{
@@ -96,6 +97,9 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                 paddingBottom: "0px",
                 marginBottom: "0px"
               }}
+              onMouseOver={() => setActiveMenu(menuItem.id)}
+              onFocus={() => setActiveMenu(menuItem.id)}
+              onMouseLeave={() => setActiveMenu("")}
             >
               <div className={`${itemId}__inside`}>
                 <div className="container">
@@ -141,14 +145,13 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                       })}
                     </div>
                   ) : (
-                    menuItem.children
-                      ?.map(subMenuItem => {
-                        return (
-                          <a key={subMenuItem.link} href={subMenuItem.link}>
-                            {subMenuItem.name}
-                          </a>
-                        );
-                      })
+                    menuItem.children?.map(subMenuItem => {
+                      return (
+                        <a key={subMenuItem.link} href={subMenuItem.link}>
+                          {subMenuItem.name}
+                        </a>
+                      );
+                    })
                   )}
                 </div>
               </div>

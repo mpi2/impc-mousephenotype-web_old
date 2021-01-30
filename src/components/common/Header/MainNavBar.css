@@ -79,3 +79,16 @@
   transform: rotate(0);
   background-color: black;
 }
+
+.sub-menu {
+  max-height: 0px;
+  transition: all 1s cubic-bezier(0.02, 0.01, 0.47, 1);
+  -webkit-transition: all 1s cubic-bezier(0.02, 0.01, 0.47, 1);
+  -moz-transition: all 1s cubic-bezier(0.02, 0.01, 0.47, 1);
+  overflow: hidden;
+}
+
+.sub-menu.active {
+  height: auto;
+  max-height: 500px;
+}
