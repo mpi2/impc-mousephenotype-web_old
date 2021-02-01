@@ -4,8 +4,8 @@ import "./MainNavBar.css";
 export interface MenuItem {
   name: string;
   link: string;
-  id: string;
-  classes: string;
+  id?: number;
+  classes?: string;
   sort?: number;
   children?: MenuItem[];
 }
@@ -15,7 +15,7 @@ export interface INavBarProps {
 }
 
 export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
-  const [activeMenuId, setActiveMenu] = useState("");
+  const [activeMenuId, setActiveMenu] = useState(-1);
 
   return (
     <div>
@@ -52,9 +52,9 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                               ? "current-menu-item"
                               : ""
                           }`}
-                          onMouseOver={() => setActiveMenu(menuItem.id)}
-                          onFocus={() => setActiveMenu(menuItem.id)}
-                          onMouseLeave={() => setActiveMenu("")}
+                          onMouseOver={() => setActiveMenu(menuItem.id || -1)}
+                          onFocus={() => setActiveMenu(menuItem.id || -1)}
+                          onMouseLeave={() => setActiveMenu(-1)}
                         >
                           <a href={menuItem.link}>{menuItem.name}</a>
                         </li>
@@ -83,7 +83,7 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
       {menuItems
         .filter(menuItem => menuItem.children && menuItem.children.length > 0)
         .map(menuItem => {
-          const itemId = `${menuItem.classes.split("-")[0]}-menu`;
+          const itemId = `${menuItem.classes?.split("-")[0]}-menu`;
           return (
             <div
               key={`subMenu-${menuItem.id}`}
@@ -97,9 +97,9 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                 paddingBottom: "0px",
                 marginBottom: "0px"
               }}
-              onMouseOver={() => setActiveMenu(menuItem.id)}
-              onFocus={() => setActiveMenu(menuItem.id)}
-              onMouseLeave={() => setActiveMenu("")}
+              onMouseOver={() => setActiveMenu(menuItem.id || -1)}
+              onFocus={() => setActiveMenu(menuItem.id || -1)}
+              onMouseLeave={() => setActiveMenu(-1)}
             >
               <div className={`${itemId}__inside`}>
                 <div className="container">

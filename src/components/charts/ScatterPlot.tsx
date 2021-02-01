@@ -16,7 +16,7 @@ import "../../styles/styles.scss";
 import "./ScatterPlot.css";
 import { ParentSize } from "@visx/responsive";
 
-export interface IProps {
+export interface IScatterPlotProps {
   xAxisLabel: string;
   yAxisLabel: string;
   /**
@@ -46,7 +46,7 @@ const accessors = {
   yAccessor: (d: ITimePoint) => d.y
 };
 
-export const ScatterPlot: FunctionComponent<IProps> = props => {
+export const ScatterPlot: FunctionComponent<IScatterPlotProps> = props => {
   const { xAxisLabel, yAxisLabel, series, window } = props;
   const seriesNames = series.map(({ seriesName }) => seriesName);
   if (window) {

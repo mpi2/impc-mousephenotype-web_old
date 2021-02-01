@@ -1,11 +1,11 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 
-import { ScatterPlot, IProps } from "./ScatterPlot";
+import { ScatterPlot, IScatterPlotProps } from "./ScatterPlot";
 
 export default {
   title: "Components/Charts/Scatter Plot",
-  component: ScatterPlot,
+  component: ScatterPlot
 } as Meta;
 
 const series = [
@@ -50,7 +50,7 @@ const window = [
   { x: "2021-01-03", y: 0 }
 ];
 
-const Template: Story<IProps> = args => (
+const Template: Story<IScatterPlotProps> = args => (
   <div className="page-content people py-5 white-bg">
     <ScatterPlot {...args} />
   </div>

@@ -5,11 +5,6 @@ import { MenuItem } from "../common/Header/MainNavBar";
 const sortChildren = (itemA: MenuItem, itemB: MenuItem) => {
   const itemASort = itemA.sort;
   const itemBSort = itemB.sort;
-  
-  if(!itemASort || !itemBSort) {
-      console.log({ itemA, itemB });
-
-  }
   if (
     itemASort !== undefined &&
     itemBSort !== undefined &&
@@ -27,10 +22,10 @@ export const DataPageTemplate = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   useEffect(() => {
-    fetch("https://www.mousephenotype.org/jsonmenu/").then(res =>
-      res.json().then((json: MenuItem[])=> {
+    fetch(`${process.env.REACT_APP_BASE_URL}/jsonmenu/`).then(res =>
+      res.json().then((json: MenuItem[]) => {
         json.forEach(element => {
-            element.children?.sort(sortChildren);
+          element.children?.sort(sortChildren);
         });
         setMenuItems(json);
       })
