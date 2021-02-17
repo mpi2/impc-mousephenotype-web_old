@@ -112,15 +112,15 @@ export const MainNavBar: FunctionComponent<INavBarProps> = ({ menuItems }) => {
                     item => item.children && item.children?.length > 0
                   ) ? (
                     <div className="row justify-content-end">
-                      {menuItem.children?.map(subMenutItem => {
+                      {menuItem.children?.map(subMenuItem => {
                         return (
                           <div
-                            key={subMenutItem.link}
+                            key={subMenuItem.link}
                             className="col col-auto text-left"
                           >
-                            <a href={subMenutItem.link}>{subMenutItem.name}</a>
+                            <a href={subMenuItem.link}>{subMenuItem.name}</a>
                             <div className="sub-pages">
-                              {subMenutItem.children
+                              {subMenuItem.children
                                 ?.sort((a, b) => {
                                   if (a.name < b.name) {
                                     return -1;

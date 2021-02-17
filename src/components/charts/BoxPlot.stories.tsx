@@ -12,7 +12,7 @@ export default {
 
 const Template: Story<StatsPlotProps &
   WithTooltipProvidedProps<TooltipData>> = args => (
-  <div className="page-content people py-5 white-bg">
+  <div className="page-content people py-5 white-bg" style={{height: 500}}>
     <BoxPlot {...args} />
   </div>
 );
