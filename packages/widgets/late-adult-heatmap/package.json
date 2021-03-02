@@ -1,0 +1,18 @@
+{
+  "name": "@impc/late-adult-heatmap",
+  "version": "1.0.0",
+  "main": "dist/index.html",
+  "license": "MIT",
+  "dependencies": {
+    "@impc/components": "*",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "parcel": "next"
+  },
+  "scripts": {
+    "start:widget": "parcel src/index.html",
+    "build:widget": "parcel build src/index.html"
+  }
+}
