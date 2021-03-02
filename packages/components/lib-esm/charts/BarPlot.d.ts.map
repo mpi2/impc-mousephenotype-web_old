@@ -1,1 +1,0 @@
-{"version":3,"file":"BarPlot.d.ts","sourceRoot":"","sources":["../../src/charts/BarPlot.tsx"],"names":[],"mappings":"AAAA,OAAc,EAAE,iBAAiB,EAAE,MAAM,OAAO,CAAC;AAGjD,MAAM,WAAW,aAAa;IAC1B,QAAQ,EAAE,MAAM,CAAC;IACjB,IAAI,EAAE,MAAM,CAAC;CAChB;AAED,eAAO,MAAM,OAAO,EAAE,iBAAiB,CAAC,aAAa,CAEpD,CAAA"}
