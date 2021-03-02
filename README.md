@@ -52,3 +52,6 @@ React components library, web application and widgets library for the mousepheno
    ```
 
 6. [OPTIONAL] Install VS Code recommended extensions
+
+![Screen-Shot-2019-08-14-at-2 53 11-PM-1](https://user-images.githubusercontent.com/2343039/109700706-0a184c80-7b8a-11eb-8816-fa7850faa3f4.png)
+
