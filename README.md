@@ -1,8 +1,4 @@
-<style>
-img[alt=logo-impc] { width: 300px; }
-</style>
-
-![logo-impc](https://www.mousephenotype.org/wp-content/themes/impc/images/IMPC_logo.svg)
+<img alt="logo-impc" src="https://www.mousephenotype.org/wp-content/themes/impc/images/IMPC_logo.svg" width="250">
 
 # IMPC - Mouse Phenotype Web
 
