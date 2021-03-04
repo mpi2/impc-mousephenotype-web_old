@@ -1,5 +1,5 @@
 {
-    "cSpell.words": [
-        "infobox"
-    ]
+  "cSpell.words": ["infobox"],
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true
 }
